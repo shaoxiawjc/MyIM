@@ -1,5 +1,6 @@
 package com.shaoxia.server.websocket.handler;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
 import com.shaoxia.server.common.constant.WSReqCode;
@@ -11,6 +12,9 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +47,27 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
 		log.warn("异常发生，异常消息 ={}", cause);
 		System.out.println(cause.getMessage());
 		ctx.channel().close();
+	}
+
+	/**
+	 * 处理心跳请求
+	 * @param ctx
+	 * @param evt
+	 * @throws Exception
+	 */
+	@Override
+	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+		if (evt instanceof IdleStateEvent) {
+			IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
+			// 读空闲
+			if (idleStateEvent.state() == IdleState.READER_IDLE) {
+				// 关闭用户的连接
+				Long id = NettyWebSocketServer.CHANNEL_USER.get(ctx.channel());
+				NettyWebSocketServer.CHANNEL_USER.remove(ctx.channel());
+				NettyWebSocketServer.ONLINE_USERS.remove(id);
+			}
+		}
+		super.userEventTriggered(ctx, evt);
 	}
 
 	@Override
