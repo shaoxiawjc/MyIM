@@ -3,6 +3,7 @@ package com.shaoxia.server.websocket.model.domain;
 import com.alibaba.fastjson.annotation.JSONType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
@@ -72,6 +73,7 @@ public class Message implements Serializable {
      * 逻辑删除
      */
     @TableField(value = "is_delete")
+    @TableLogic
     private Integer isDelete;
 
     /**
