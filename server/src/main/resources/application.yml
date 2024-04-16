@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: dev
+
+
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+      logic-delete-field: is_deleted
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

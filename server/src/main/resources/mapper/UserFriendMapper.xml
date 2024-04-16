@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shaoxia.server.user.mapper.UserFriendMapper">
+
+    <resultMap id="BaseResultMap" type="com.shaoxia.server.user.model.domain.UserFriend">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="uid" column="uid" jdbcType="BIGINT"/>
+            <result property="friendUid" column="friend_uid" jdbcType="BIGINT"/>
+            <result property="isDelete" column="is_delete" jdbcType="TINYINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="GetFriendResultMap" type="com.shaoxia.server.user.model.vo.friend.GetFriendResp">
+        <result property="friendId" column="f_id"/>
+        <result property="friendName" column="f_name"/>
+        <result property="friendAvatar" column="f_avatar"/>
+    </resultMap>
+    
+    <select id="selectFriendById" resultMap="GetFriendResultMap">
+        select
+            uf.id as f_id,
+            u.avatar as f_avatar,
+            u.name as f_name
+        from my_im.user_friend uf
+        inner join user u on u.id = uf.friend_uid
+        where uf.uid = #{uid}
+    </select>
+
+    <sql id="Base_Column_List">
+        id,uid,friend_uid,
+        is_delete,create_time,update_time
+    </sql>
+</mapper>

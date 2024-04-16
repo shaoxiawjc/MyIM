@@ -1,0 +1,14 @@
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/my_im?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1234567
+
+
+server:
+  port: 8081
