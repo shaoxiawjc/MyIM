@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 用户登录请求类
  * @date 2024-04-12 23:12
  */
 @Data

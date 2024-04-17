@@ -27,7 +27,7 @@ import static com.shaoxia.server.websocket.NettyWebSocketServer.ONLINE_USERS;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 连接websocket时鉴权
  * @date 2024-04-12 23:56
  */
 @Slf4j

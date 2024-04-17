@@ -12,7 +12,7 @@ import java.io.Serializable;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 基本响应类
  * @date 2024-04-14 14:36
  */
 @Data

@@ -3,7 +3,7 @@ package com.shaoxia.server.common.utils;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 关于ID判断或者生成的工具类
  * @date 2024-04-14 15:23
  */
 public class IdUtils {

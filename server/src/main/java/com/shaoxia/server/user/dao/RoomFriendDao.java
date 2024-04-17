@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 好友房间持久化层
  * @date 2024-04-14 16:41
  */
 @Component

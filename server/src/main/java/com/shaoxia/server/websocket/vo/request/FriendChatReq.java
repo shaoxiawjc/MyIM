@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 好友聊天请求类
  * @date 2024-04-14 14:07
  */
 @Slf4j

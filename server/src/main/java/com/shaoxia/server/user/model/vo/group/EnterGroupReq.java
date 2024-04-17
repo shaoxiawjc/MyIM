@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 进入一个群聊请求类
  * @date 2024-04-15 8:33
  */
 @Data

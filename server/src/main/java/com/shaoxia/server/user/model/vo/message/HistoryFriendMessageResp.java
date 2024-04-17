@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 查看单聊历史消息响应类
  * @date 2024-04-14 21:45
  */
 @Data

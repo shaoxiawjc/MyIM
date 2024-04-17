@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 好友聊天响应类
  * @date 2024-04-14 14:37
  */
 @Data

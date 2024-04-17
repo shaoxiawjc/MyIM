@@ -54,7 +54,6 @@ public class SaveMessage {
 				System.out.println(list);
 				List<Message> messages = list.stream().map(s -> {
 					Message message = JSON.parseObject(s, Message.class);
-					message.setId(generator.next());
 					return message;
 				}).collect(Collectors.toList());
 				messageDao.saveBatch(messages);

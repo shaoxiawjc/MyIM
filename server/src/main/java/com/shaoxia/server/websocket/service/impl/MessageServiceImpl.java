@@ -1,5 +1,6 @@
 package com.shaoxia.server.websocket.service.impl;
 
+import cn.hutool.core.lang.generator.SnowflakeGenerator;
 import com.alibaba.fastjson2.JSON;
 import com.shaoxia.server.user.dao.GroupMemberDao;
 import com.shaoxia.server.user.dao.RoomGroupDao;
@@ -50,6 +51,8 @@ public class MessageServiceImpl implements MessageService {
 	private GroupMemberDao groupMemberDao;
 	@Resource
 	private RoomGroupDao roomGroupDao;
+	@Resource
+	private SnowflakeGenerator generator;
 
 
 	@Override
@@ -63,6 +66,7 @@ public class MessageServiceImpl implements MessageService {
 		// 去在线用户列表里查找是否上线
 		if (ONLINE_USERS.containsKey(targetId) && ONLINE_USERS.get(targetId).isActive()){
 			// 对方在线就flush
+			// TODO 这里如果刚刚好对面下线了，ONLINE_USERS就会移除对应id 这里就会报错
 			Channel targetChannel = ONLINE_USERS.get(targetId);
 			targetChannel.writeAndFlush(WSBaseResp.success(resp));
 		}
@@ -80,7 +84,24 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	@Transactional
 	public List<HistoryFriendMessageResp> getNotReadMessage(String roomId) {
-		List<HistoryFriendMessageResp> resp = messageToResp(messageDao.getNotRead(roomId));
+		// 先从Redis里获取消息
+		List<String> list = redisTemplate.opsForList().range(MESSAGE_LIST,0,-1);
+		List<Message> messages = list.stream()
+				.map(s -> {
+					Message message = JSON.parseObject(s, Message.class);
+					return message;
+				})
+				.filter(message -> {
+					if (message.getType() == 1 && message.getRoomId() == Long.parseLong(roomId)) {
+						return true;
+					} else {
+						return false;
+					}
+				}).collect(Collectors.toList());
+
+		// 在从数据库里获取消息
+		messages.addAll(messageDao.getNotRead(roomId));
+		List<HistoryFriendMessageResp> resp = messageToResp(messages);
 		messageDao.read(roomId);
 		return resp;
 	}
@@ -141,11 +162,9 @@ public class MessageServiceImpl implements MessageService {
 	private void saveFriendMessageToRedis(ChannelHandlerContext ctx,FriendChatReq req){
 		Long fromId = CHANNEL_USER.get(ctx.channel()); // 发送者id
 		Message cacheMessage = rawMessage(req, fromId);
-
+		cacheMessage.setId(generator.next());
 		redisTemplate.opsForList().leftPushAll(MESSAGE_LIST,cacheMessage);
 		redisTemplate.expire(MESSAGE_LIST,2, TimeUnit.DAYS);
-		// TODO 测试用
-		messageDao.save(cacheMessage);
 	}
 
 	/**
@@ -156,10 +175,9 @@ public class MessageServiceImpl implements MessageService {
 	private void saveFriendMessageToRedis(ChannelHandlerContext ctx,GroupChatReq req){
 		Long fromId = CHANNEL_USER.get(ctx.channel()); // 发送者id
 		Message cacheMessage = rawMessage(req, fromId);
+		cacheMessage.setId(generator.next());
 		redisTemplate.opsForList().leftPushAll(MESSAGE_LIST,JSON.toJSONString(cacheMessage));
 		redisTemplate.expire(MESSAGE_LIST,2, TimeUnit.DAYS);
-		// TODO 测试用
-		messageDao.save(cacheMessage);
 	}
 
 	/**

@@ -15,6 +15,11 @@ public enum WSReqCode {
 	 */
 	GROUP_CHAT(2),
 	/**
+	 * 心跳包
+	 */
+	HEART(3),
+
+	/**
 	 * 不存在的消息码
 	 */
 	ERROR(-1)

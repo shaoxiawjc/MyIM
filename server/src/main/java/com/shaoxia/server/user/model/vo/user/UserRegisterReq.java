@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 用户注册请求类
  * @date 2024-04-12 23:42
  */
 @Data

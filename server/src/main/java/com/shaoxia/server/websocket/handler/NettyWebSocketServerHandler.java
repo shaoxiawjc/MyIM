@@ -24,7 +24,7 @@ import javax.annotation.Resource;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 通信业务处理
  * @date 2024-04-14 13:55
  */
 @Slf4j
@@ -97,8 +97,11 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
 			case GROUP_CHAT:
 				messageService.groupChat(channelHandlerContext,textWebSocketFrame);
 				break;
+			case HEART:
+				break;
 			default:
 				System.out.println("未知类型");
+				break;
 		}
 	}
 }

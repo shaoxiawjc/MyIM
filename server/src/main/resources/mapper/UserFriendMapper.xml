@@ -20,7 +20,7 @@
     
     <select id="selectFriendById" resultMap="GetFriendResultMap">
         select
-            uf.id as f_id,
+            u.id as f_id,
             u.avatar as f_avatar,
             u.name as f_name
         from my_im.user_friend uf

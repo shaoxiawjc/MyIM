@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 启动器
  * @date 2024-04-08 23:33
  */
 @SpringBootApplication(scanBasePackages = "com.shaoxia")

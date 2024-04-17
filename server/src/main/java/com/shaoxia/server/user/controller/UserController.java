@@ -22,7 +22,7 @@ import static com.shaoxia.server.common.exception.ErrorCode.PARAMS_ERROR;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 用户模块控制层
  * @date 2024-04-12 23:08
  */
 @RestController

@@ -22,7 +22,7 @@ import static com.shaoxia.server.common.exception.ErrorCode.*;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 用户申请控制层
  * @date 2024-04-13 16:19
  */
 @RestController

@@ -26,7 +26,7 @@ import static com.shaoxia.server.common.exception.ErrorCode.*;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 好友申请业务实现类
  * @date 2024-04-13 16:25
  */
 @Service

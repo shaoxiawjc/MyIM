@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 基本聊天请求类
  * @date 2024-04-08 23:53
  */
 @Data

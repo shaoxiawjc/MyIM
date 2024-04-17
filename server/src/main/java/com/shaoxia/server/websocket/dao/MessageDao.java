@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 消息持久化
  * @date 2024-04-14 14:15
  */
 @Component

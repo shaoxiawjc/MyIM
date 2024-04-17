@@ -24,7 +24,7 @@ import static com.shaoxia.server.common.constant.RedisKey.MESSAGE_LIST;
 /**
  * @author wjc28
  * @version 1.0
- * @description: TODO
+ * @description: 测试类
  * @date 2024-04-16 12:44
  */
 
