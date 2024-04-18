@@ -21,6 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
 
+import java.util.Objects;
+
+import static com.shaoxia.server.websocket.NettyWebSocketServer.CHANNEL_USER;
+import static com.shaoxia.server.websocket.NettyWebSocketServer.ONLINE_USERS;
+
 /**
  * @author wjc28
  * @version 1.0
@@ -62,9 +67,13 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
 			// 读空闲
 			if (idleStateEvent.state() == IdleState.READER_IDLE) {
 				// 关闭用户的连接
-				Long id = NettyWebSocketServer.CHANNEL_USER.get(ctx.channel());
-				NettyWebSocketServer.CHANNEL_USER.remove(ctx.channel());
-				NettyWebSocketServer.ONLINE_USERS.remove(id);
+				Channel channel = ctx.channel();
+				Long id = CHANNEL_USER.get(channel);
+				if (!Objects.isNull(id)){
+					CHANNEL_USER.remove(channel);
+					ONLINE_USERS.remove(id);
+				}
+				ctx.close();
 			}
 		}
 		super.userEventTriggered(ctx, evt);
@@ -73,9 +82,12 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 		Channel channel = ctx.channel();
-		Long id = NettyWebSocketServer.CHANNEL_USER.get(channel);
-		NettyWebSocketServer.ONLINE_USERS.remove(id);
-		NettyWebSocketServer.CHANNEL_USER.remove(id);
+		Long id = CHANNEL_USER.get(channel);
+		// 可能心跳导致的断链已近移除了
+		if (!Objects.isNull(id)){
+			CHANNEL_USER.remove(channel);
+			ONLINE_USERS.remove(id);
+		}
 		ctx.close();
 	}
 
@@ -83,7 +95,7 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
 	protected void channelRead0(ChannelHandlerContext channelHandlerContext,
 								TextWebSocketFrame textWebSocketFrame) throws Exception {
 		Channel channel = channelHandlerContext.channel();
-		if (!NettyWebSocketServer.CHANNEL_USER.containsKey(channel)){
+		if (!CHANNEL_USER.containsKey(channel)){
 			channelHandlerContext.channel().close();
 			return;
 		}

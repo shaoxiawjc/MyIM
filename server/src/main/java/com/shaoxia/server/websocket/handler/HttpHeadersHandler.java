@@ -76,6 +76,8 @@ public class HttpHeadersHandler extends ChannelInboundHandlerAdapter {
 					}
 					ONLINE_USERS.put(Long.parseLong(id),ctx.channel());
 					CHANNEL_USER.put(ctx.channel(),Long.parseLong(id));
+					System.out.println(ONLINE_USERS);
+					System.out.println(CHANNEL_USER);
 					ctx.fireChannelRead(msg);
 				}
 			}catch (Exception e){

@@ -53,7 +53,9 @@ public class SaveMessage {
 				List<String> list =  redisTemplate.opsForList().range(MESSAGE_LIST,0,-1);
 				System.out.println(list);
 				List<Message> messages = list.stream().map(s -> {
+					System.out.println(s);
 					Message message = JSON.parseObject(s, Message.class);
+					System.out.println(message);
 					return message;
 				}).collect(Collectors.toList());
 				messageDao.saveBatch(messages);

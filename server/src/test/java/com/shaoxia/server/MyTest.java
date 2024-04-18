@@ -1,10 +1,12 @@
 package com.shaoxia.server;
 
 import cn.hutool.core.lang.generator.SnowflakeGenerator;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson2.JSON;
 import com.shaoxia.server.websocket.dao.MessageDao;
 import com.shaoxia.server.websocket.model.domain.Message;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.junit.jupiter.api.Test;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -50,13 +52,17 @@ public class MyTest {
 //				System.out.println("getLock: " + Thread.currentThread().getId());
 //				List<String> list =  redisTemplate.opsForList().range(MESSAGE_LIST,0,-1);
 //				System.out.println(list);
-//				List<Message> messages = list.stream().map(s -> {
-//					Message message = JSON.parseObject(s, Message.class);
-//					message.setId(generator.next());
-//					return message;
-//				}).collect(Collectors.toList());
-//				messageDao.saveBatch(messages);
-//				redisTemplate.delete(MESSAGE_LIST);
+//				if (Objects.nonNull(list)){
+//					List<Message> messages = list.stream().map(s -> {
+//						System.out.println(s);
+//						Message message = JSON.parseObject(s, Message.class);
+//						System.out.println(message instanceof Message);
+//						return message;
+//					}).collect(Collectors.toList());
+//					messageDao.saveBatch(messages);
+//					redisTemplate.delete(MESSAGE_LIST);
+//				}
+//
 //			}
 //		} catch (InterruptedException e) {
 //			log.error("doCacheRecommendUser error", e);

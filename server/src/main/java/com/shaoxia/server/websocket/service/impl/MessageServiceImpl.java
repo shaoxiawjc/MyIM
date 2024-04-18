@@ -163,7 +163,8 @@ public class MessageServiceImpl implements MessageService {
 		Long fromId = CHANNEL_USER.get(ctx.channel()); // 发送者id
 		Message cacheMessage = rawMessage(req, fromId);
 		cacheMessage.setId(generator.next());
-		redisTemplate.opsForList().leftPushAll(MESSAGE_LIST,cacheMessage);
+		System.out.println(cacheMessage+req.getMsg());
+		redisTemplate.opsForList().leftPushAll(MESSAGE_LIST,JSON.toJSONString(cacheMessage));
 		redisTemplate.expire(MESSAGE_LIST,2, TimeUnit.DAYS);
 	}
 
